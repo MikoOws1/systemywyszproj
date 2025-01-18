@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import time
 
 def scrape_airline_reviews(base_url, output_file, max_reviews):
     # Nagłówki HTTP dla requests
@@ -14,7 +15,7 @@ def scrape_airline_reviews(base_url, output_file, max_reviews):
     while len(review_data) < max_reviews:
         url = f"{base_url}page/{page}/"
         response = requests.get(url, headers=headers)
-        
+
         if response.status_code != 200:
             print(f"Błąd pobierania strony: {response.status_code}")
             break
@@ -34,10 +35,11 @@ def scrape_airline_reviews(base_url, output_file, max_reviews):
 
             # Pobieranie danych szczegółowych
             title = review.find('h2', class_='text_header').text.strip() if review.find('h2', class_='text_header') else 'Brak tytułu'
-            body = review.find('div', class_='text_content').text.strip() if review.find('div', class_='text_content') else 'Brak treści'
-            
+            body_element = review.find('div', class_='text_content')
+            body = body_element.text.strip() if body_element else 'Brak treści'
+
             # Sprawdź obecność "Trip Verified"
-            trip_verified = "yes" if "Trip Verified" in body else "no"
+            trip_verified = "yes" if body_element and body_element.find('em', text='Trip Verified') else "no"
             body = body.replace("✅ Trip Verified |", "").strip()
 
             rating = review.find('span', itemprop='ratingValue').text.strip() if review.find('span', itemprop='ratingValue') else 'Brak oceny'
@@ -73,7 +75,7 @@ def scrape_airline_reviews(base_url, output_file, max_reviews):
             review_data.append({
                 'Tytuł opinii': title,
                 'Treść opinii': body,
-                'Trip Verified': trip_verified,
+                'Trip Verified': 1 if trip_verified == 'yes' else 0,
                 'Ocena (10)': rating,
                 'Autor': author,
                 'Data publikacji': date_published,
@@ -91,6 +93,9 @@ def scrape_airline_reviews(base_url, output_file, max_reviews):
 
         print(f"Przetworzono stronę {page}, zebrano {len(review_data)} opinii.")
         page += 1
+
+        # Dodanie opóźnienia między stronami
+        time.sleep(15)
 
     # Zapisz dane do pliku CSV
     with open(output_file, mode='w', newline='', encoding='utf-8') as csvfile:
