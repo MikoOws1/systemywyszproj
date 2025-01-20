@@ -144,7 +144,7 @@ def scrape_airline_reviews(base_url, output_file, max_reviews, proxy_file):
         page += 1
 
         # Dodanie opóźnienia między stronami
-        time.sleep(5)
+        time.sleep(3)
 
     # Zapisz dane do pliku CSV
     with open(output_file, mode='w', newline='', encoding='utf-8') as csvfile:
@@ -161,9 +161,9 @@ def scrape_airline_reviews(base_url, output_file, max_reviews, proxy_file):
 
 # Wywołanie funkcji
 def main():
-    base_url = "https://www.airlinequality.com/airline-reviews/swiss-international-air-lines/"
-    output_file = "swiss_reviews.csv"
-    max_reviews = 1100  # Ustaw maksymalną liczbę opinii do pobrania
+    base_url = "https://www.airlinequality.com/airline-reviews/thai-airways//"
+    output_file = "thai_reviews.csv"
+    max_reviews = 1000  # Ustaw maksymalną liczbę opinii do pobrania
     proxy_file = "proxies.txt"  # Plik z listą proxy
     scrape_airline_reviews(base_url, output_file, max_reviews, proxy_file)
 
