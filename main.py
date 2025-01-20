@@ -161,9 +161,9 @@ def scrape_airline_reviews(base_url, output_file, max_reviews, proxy_file):
 
 # Wywołanie funkcji
 def main():
-    base_url = "https://www.airlinequality.com/airline-reviews/united-airlines/"
-    output_file = "United_reviews.csv"
-    max_reviews = 5000  # Ustaw maksymalną liczbę opinii do pobrania
+    base_url = "https://www.airlinequality.com/airline-reviews/swiss-international-air-lines/"
+    output_file = "swiss_reviews.csv"
+    max_reviews = 1100  # Ustaw maksymalną liczbę opinii do pobrania
     proxy_file = "proxies.txt"  # Plik z listą proxy
     scrape_airline_reviews(base_url, output_file, max_reviews, proxy_file)
 
