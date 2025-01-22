@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Airline Reviews Search Engine</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Main Container -->
+    <div class="index-container">
+      <!-- Header Section -->
+      <h1 class="welcome-title">Welcome to Airline Reviews Search Engine</h1>
+
+      <!-- Navigation Buttons -->
+      <div class="nav-buttons">
+        <a href="{{ url_for('search') }}" class="btn">Search Reviews</a>
+        <a href="{{ url_for('analytics') }}" class="btn">View Analytics</a>
+      </div>
+
+      <!-- Image Section -->
+      <div class="image-section">
+        <img
+          src="{{ url_for('static', filename='images/585e9da1cb11b227491c34fa.png') }}"
+          alt="Airplane"
+          class="main-image"
+        />
+      </div>
+    </div>
+  </body>
+</html>
