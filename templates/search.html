@@ -12,9 +12,10 @@
         <a href="{{ url_for('home') }}">Home</a>
         <a href="{{ url_for('search') }}">Search</a>
         <a href="{{ url_for('analytics') }}">Analytics</a>
+        <a href="{{ url_for('wordcloud') }}">Word Cloud</a>
     </div>
 
-    <!-- Search Content -->
+    <!-- Main Container -->
     <div class="container">
         <!-- Search Form -->
         <div class="search-form">
@@ -37,7 +38,7 @@
                 <select id="route" name="route" size="5">
                     <option value="" {% if route == '' %}selected{% endif %}>Any</option>
                     {% for option in filter_options.routes %}
-                        <option value="{{ option }}" {% if route == option %}selected{% endif %}>{{ option }}</option>
+                        <option value="{{ option }}">{{ option }}</option>
                     {% endfor %}
                 </select>
 

@@ -36,8 +36,8 @@
 
 - 10 pkt
 
-### Zamieszczanie wykresów - 1 słupkowy i 1 kołowy
+### Zamieszczanie wykresów - 1 słupkowy i 1 kołowy, chmura słow
 
-- 8 pkt
+- 12 pkt
 
-## Suma: 82 pkt
+## Suma: 86 pkt

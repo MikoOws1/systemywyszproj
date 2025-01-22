@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Cloud Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('search') }}">Search</a>
+        <a href="{{ url_for('analytics') }}">Analytics</a>
+        <a href="{{ url_for('wordcloud') }}">Word Cloud</a>
+    </div>
+
+    <!-- Word Cloud Section -->
+    <div class="wordcloud-container">
+        <h1>Generate Word Cloud</h1>
+        <form method="POST">
+            <label for="airline">Select Airline (optional):</label>
+            <select id="airline" name="airline">
+                <option value="">-- All Airlines --</option>
+                {% for airline in airlines %}
+                    <option value="{{ airline }}" {% if airline == selected_airline %}selected{% endif %}>{{ airline }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Generate</button>
+        </form>
+
+        {% if cloud_image %}
+            <h2>Word Cloud</h2>
+            <img src="data:image/png;base64,{{ cloud_image }}" alt="Word Cloud">
+        {% endif %}
+    </div>
+</body>
+</html>

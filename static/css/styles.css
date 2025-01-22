@@ -264,3 +264,50 @@ button:hover {
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+/* Word Cloud Page Styles */
+.wordcloud-container {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.wordcloud-container h1 {
+  font-size: 2.5rem;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+.wordcloud-container form {
+  margin-bottom: 20px;
+}
+
+.wordcloud-container select {
+  padding: 8px;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.wordcloud-container button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.wordcloud-container button:hover {
+  background-color: #45a049;
+}
+
+.wordcloud-container img {
+  max-width: 80%;
+  height: auto;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

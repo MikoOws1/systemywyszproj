@@ -7,9 +7,11 @@ import sqlite3
 import matplotlib.pyplot as plt
 import io
 from nltk.sentiment import SentimentIntensityAnalyzer
+from wordcloud import WordCloud
 import base64
 import nltk
 nltk.download('vader_lexicon')
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -197,7 +199,7 @@ def analytics():
         }
 
         # Clean and calculate 'Avg Overall Rating'
-        filtered_data['Ocena_ogolna'] = pd.to_numeric(filtered_data['Ocena_ogolna'], errors='coerce')
+        filtered_data.loc[:, 'Ocena_ogolna'] = pd.to_numeric(filtered_data['Ocena_ogolna'], errors='coerce')
         summary["Avg Overall Rating"] = filtered_data['Ocena_ogolna'].mean()
 
         # Generate bar chart for averages (scale to 5)
@@ -260,6 +262,58 @@ def analytics():
         chart_data=chart_data,
         sentiment_chart=sentiment_chart
     )
+
+@app.route("/wordcloud", methods=["GET", "POST"])
+def wordcloud():
+    airlines = filter_options['airlines']  # Lista dostępnych linii lotniczych
+    selected_airline = None
+    cloud_image = None
+
+    if request.method == "POST":
+        selected_airline = request.form.get("airline")
+
+        # Filtruj dane według wybranej linii lotniczej lub użyj wszystkich opinii
+        if selected_airline:
+            filtered_data = data[data['Linia_lotnicza'] == selected_airline]
+        else:
+            filtered_data = data
+
+        # Połącz oczyszczone tytuły i treści opinii
+        corpus = filtered_data['Tytul_opinii'] + " " + filtered_data['Tresc_opinii']
+        corpus = corpus.dropna().tolist()
+
+        # Przygotowanie TF-IDF z usunięciem stop-słów
+        vectorizer = TfidfVectorizer(stop_words="english", max_features=500)
+        tfidf_matrix = vectorizer.fit_transform(corpus)
+
+        # Pobranie słów i ich wag
+        words = vectorizer.get_feature_names_out()
+        weights = tfidf_matrix.sum(axis=0).A1  # Sumuj wagi dla każdego słowa
+
+        # Utworzenie słownika słów z wagami
+        word_weights = dict(zip(words, weights))
+
+        # Generowanie chmury słów
+        wordcloud = WordCloud(
+            width= 1200,
+            height=600,
+            background_color="white",
+            colormap="viridis"
+        ).generate_from_frequencies(word_weights)
+
+        # Konwertowanie chmury na obraz
+        img = io.BytesIO()
+        wordcloud.to_image().save(img, format="PNG")
+        img.seek(0)
+        cloud_image = base64.b64encode(img.getvalue()).decode()
+
+    return render_template(
+        "wordcloud.html",
+        airlines=airlines,
+        selected_airline=selected_airline,
+        cloud_image=cloud_image
+    )
+
 
 def jaccard_similarity(query, document):
     query_set = set(query.split())
