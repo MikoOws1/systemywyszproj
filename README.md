@@ -1,4 +1,4 @@
-## Projekt systemy wyszukiwawcze - repo
+## Projekt systemy wyszukiwawcze - gotowe do oceny
 
 ### Wielkość zbioru danych - ponad 38000 dokumentów, przechowywanych w SQL Lite
 
