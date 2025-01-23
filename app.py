@@ -4,6 +4,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import re
 import sqlite3
+import matplotlib
+matplotlib.use('Agg')  # Wymuszenie backendu non-GUI
 import matplotlib.pyplot as plt
 import io
 from nltk.sentiment import SentimentIntensityAnalyzer
@@ -11,6 +13,7 @@ from wordcloud import WordCloud
 import base64
 import nltk
 nltk.download('vader_lexicon')
+
 
 
 # Initialize Flask app
@@ -200,20 +203,23 @@ def analytics():
 
         # Clean and calculate 'Avg Overall Rating'
         filtered_data.loc[:, 'Ocena_ogolna'] = pd.to_numeric(filtered_data['Ocena_ogolna'], errors='coerce')
-        summary["Avg Overall Rating"] = filtered_data['Ocena_ogolna'].mean()
-
+        summary["Avg Overall Rating"] = (filtered_data['Ocena_ogolna'].mean())/2
         # Generate bar chart for averages (scale to 5)
-        labels = ["Seat Rating", "Food Rating", "Ground Service", "Cabin Crew", "Value for Money"]
+        labels = ["Seat Rating", "Food Rating", "Ground Service", "Cabin Crew", "Value for Money", "Overall Rating"]
         values = [
             summary["Avg Seat Rating"],
             summary["Avg Food Rating"],
             summary["Avg Ground Service Rating"],
             summary["Avg Cabin Crew Rating"],
-            summary["Avg Value for Money"]
+            summary["Avg Value for Money"],
+            summary["Avg Overall Rating"],  # Dodanie Overall Rating do wykresu
         ]
 
+        # Kolory dla każdego słupka
+        colors = ["skyblue", "orange", "green", "red", "purple", "gold"]
+
         plt.figure(figsize=(10, 6))
-        plt.bar(labels, values, color="skyblue")
+        plt.bar(labels, values, color=colors)
         plt.title(f"Average Ratings for {selected_airline}")
         plt.ylabel("Rating (out of 5)")
         plt.ylim(0, 5)  # Force scaling to 5
@@ -226,7 +232,7 @@ def analytics():
         chart_data = base64.b64encode(img.getvalue()).decode()
         plt.close()
 
-        # Sentiment analysis with VADER
+        # Sentiment analysis
         if include_sentiment:
             sia = SentimentIntensityAnalyzer()
             positive, neutral, negative = 0, 0, 0
@@ -283,7 +289,7 @@ def wordcloud():
         corpus = corpus.dropna().tolist()
 
         # Przygotowanie TF-IDF z usunięciem stop-słów
-        vectorizer = TfidfVectorizer(stop_words="english", max_features=500)
+        vectorizer = TfidfVectorizer(stop_words="english", max_features=1000)
         tfidf_matrix = vectorizer.fit_transform(corpus)
 
         # Pobranie słów i ich wag

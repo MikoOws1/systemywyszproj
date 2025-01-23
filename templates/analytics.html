@@ -38,12 +38,12 @@
         {% if summary %}
             <h2>Summary for {{ selected_airline }}</h2>
             <ul class="summary-list">
-                {% for key, value in summary.items() %}
-                    {% if key != "Avg Overall Rating" %}
-                        <li><strong>{{ key }}:</strong> {{ value | round(2) }}</li>
-                    {% endif %}
-                {% endfor %}
-                <li><strong>Avg Overall Rating:</strong> {{ summary["Avg Overall Rating"] | round(2) }} (out of 10)</li>
+                <li><span class="seat-rating">Avg Seat Rating:</span> {{ summary["Avg Seat Rating"] | round(2) }}</li>
+                <li><span class="food-rating">Avg Food Rating:</span> {{ summary["Avg Food Rating"] | round(2) }}</li>
+                <li><span class="ground-service">Avg Ground Service Rating:</span> {{ summary["Avg Ground Service Rating"] | round(2) }}</li>
+                <li><span class="cabin-crew">Avg Cabin Crew Rating:</span> {{ summary["Avg Cabin Crew Rating"] | round(2) }}</li>
+                <li><span class="value-for-money">Avg Value for Money:</span> {{ summary["Avg Value for Money"] | round(2) }}</li>
+                <li><span class="overall-rating">Avg Overall Rating:</span> {{ summary["Avg Overall Rating"] | round(2) }}</li>
             </ul>
         {% endif %}
 

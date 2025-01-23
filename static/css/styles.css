@@ -250,6 +250,44 @@ button:hover {
   width: 50%;
 }
 
+.analytics-container form label[for="sentiment"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* Odstęp między checkbox a tekstem */
+}
+
+.analytics-container form label[for="sentiment"] input[type="checkbox"] {
+  margin: 0; /* Usuń domyślne marginesy checkbox */
+}
+
+.summary-list li span {
+  font-weight: bold;
+}
+
+.overall-rating {
+  color: gold; /* Kolor dla Overall Rating */
+}
+
+.seat-rating {
+  color: skyblue;
+}
+
+.food-rating {
+  color: orange;
+}
+
+.ground-service {
+  color: green;
+}
+
+.cabin-crew {
+  color: red;
+}
+
+.value-for-money {
+  color: purple;
+}
+
 /* Chart Container Styling */
 .analytics-container .chart-container {
   display: flex;
